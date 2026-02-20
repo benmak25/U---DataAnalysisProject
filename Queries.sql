@@ -1,6 +1,6 @@
 SELECT Year
 FROM Economy_of_US
-WHERE GDP_Growth > 0.05;
+WHERE GDP_Growth > 0.05; --Selects Years with GDP > 5%
 
 SELECT
   (
@@ -19,4 +19,28 @@ FROM
       AVG(GDP_Nominal) OVER () AS avg_y
     FROM
       Economy_of_US t
-  ) AS subquery_with_averages;
+  ) AS subquery_with_averages; --Calculates Correlation between GDP PPP and Nominal Metrics using the statistical formula (Tested in SQLite,so I could not use the CORR function)
+
+SELECT GDP_Nominal, Year, AVG(GDP_Nominal) OVER (
+ORDER by Year
+rows BETWEEN 2 PRECEDING AND CURRENT ROW)
+ AS moving_avg
+ FROM Economy_of_US; -- 3 Year Moving Avergage for Nominal GDP
+
+SELECT GDP_Nominal, Year, AVG(GDP_Nominal) OVER (
+ORDER by Year
+rows BETWEEN 4 PRECEDING AND CURRENT ROW)
+ AS moving_avg
+ FROM Economy_of_US; -- 5 Year Moving Avergage for Nominal GDP
+
+SELECT GDP_PPP, Year, AVG(GDP_PPP) OVER (
+ORDER by Year
+rows BETWEEN 2 PRECEDING AND CURRENT ROW)
+ AS moving_avg
+ FROM Economy_of_US; -- 3 Year Moving Avergage for GDP PPP
+
+SELECT GDP_PPP, Year, AVG(GDP_PPP) OVER (
+ORDER by Year
+rows BETWEEN 4 PRECEDING AND CURRENT ROW)
+ AS moving_avg
+ FROM Economy_of_US; -- 5 Year Moving Avergage for GDP PPP
