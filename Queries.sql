@@ -44,3 +44,12 @@ ORDER by Year
 rows BETWEEN 4 PRECEDING AND CURRENT ROW)
  AS moving_avg
  FROM Economy_of_US; -- 5 Year Moving Avergage for GDP PPP
+
+SELECT Year, avg_growth
+FROM(SELECT Year, GDP_Growth, AVG(GDP_Growth) over (
+ORDER BY Year
+ROWS BETWEEN 9 PRECEDING and CURRENT ROW
+) AS avg_growth -- Calculates the average growth rate between current and previous 9 years
+FROM Economy_of_US)
+order by avg_growth DESC 
+LIMIT 1; --Finds the decade with the ending year with the highest average growth rate
