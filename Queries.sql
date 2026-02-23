@@ -53,3 +53,31 @@ ROWS BETWEEN 9 PRECEDING and CURRENT ROW
 FROM Economy_of_US)
 order by avg_growth DESC 
 LIMIT 1; --Finds the decade with the ending year with the highest average growth rate
+
+
+WITH mean AS (
+    SELECT AVG(GDP_Nominal) AS avg_value
+    FROM Economy_of_US
+),
+stddev AS (
+    SELECT 
+        SQRT(
+            SUM((t.GDP_Nominal - m.avg_value) * 
+                (t.GDP_Nominal - m.avg_value)
+            ) 
+            / (COUNT(t.GDP_Nominal) - 1)
+        ) AS stddev_value
+    FROM Economy_of_US t
+    CROSS JOIN mean m
+),
+anomalies AS (
+    SELECT
+        t1.*,
+        (t1.GDP_Nominal - m.avg_value) / s.stddev_value AS z_score
+    FROM Economy_of_US t1
+    CROSS JOIN mean m
+    CROSS JOIN stddev s
+)
+SELECT *
+FROM anomalies
+WHERE ABS(z_score) > 2;
