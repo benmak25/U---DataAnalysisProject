@@ -43,6 +43,8 @@ Document relationships and implications for modeling
 
 5. Visualizations (Tableau)
 
+Link to Live Dashboard: https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
+
 To draw more insights from the data, I created a dashboard using Tableau Public
 
-7.  Report Findings
+6.  Report Findings
