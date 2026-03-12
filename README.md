@@ -12,14 +12,37 @@ I used SQLite (DB Browser) to build simple and complex queries to analyze an Eco
   - Identify decade with highest average GDP growth 
   - Find years with anomalous values (>2 standard deviations from mean) 
 
-2. Python Analysis (Python_Analysis.ipynb)
+2. Initial Statistical Analysis (Python, Python_Analysis.ipynb)
 
 I conducted a Statistical Analysis using Python (Version 3.1), where I used libraries Numpy, Pandas, Matplotlib and Seaborn to clean, analyze and visualize the dataset.
+
+File Content:
+Descriptive Statistics & Data Validation 
+
+Load data using Pandas and perform initial data quality checks 
+
+- Calculate comprehensive descriptive statistics (mean, median, std, skewness, kurtosis) 
+- Create distribution plots using Matplotlib/Seaborn 
+- Identify and visualize outliers using box plots and z-scores 
+
+Hypothesis Testing 
+
+- Test whether mean GDP growth differs significantly across decades (ANOVA) 
+- Test correlation significance between GDP metrics (Pearson's r, p-values) 
+- Perform stationarity tests (Augmented Dickey-Fuller test) for time series 
+
+Correlation & Multicollinearity Analysis 
+Create correlation matrix heatmap for all GDP variables 
+Calculate Variance Inflation Factor (VIF) to detect multicollinearity 
+
+Document relationships and implications for modeling 
 
 3. Time Series Analysis
 
 4. Predictive Modelling
 
-5. Visualizations
+5. Visualizations (Tableau)
 
-6. Report Findings
+To draw more insights from the data, I created a dashboard using Tableau Public
+
+7.  Report Findings
