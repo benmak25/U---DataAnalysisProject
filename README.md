@@ -37,7 +37,7 @@ Calculate Variance Inflation Factor (VIF) to detect multicollinearity
 
 Document relationships and implications for modeling 
 
-3. Time Series Analysis
+3. Time Series Analysis (R)
 
 4. Predictive Modelling
 
