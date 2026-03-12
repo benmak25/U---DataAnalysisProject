@@ -12,7 +12,7 @@ I used SQLite (DB Browser) to build simple and complex queries to analyze an Eco
   - Identify decade with highest average GDP growth 
   - Find years with anomalous values (>2 standard deviations from mean) 
 
-2. Initial Statistical Analysis (Python, Python_Analysis.ipynb)
+2. Initial Statistical Analysis (Python, Python_Analysis.ipynb) *Currently in Progress
 
 I conducted a Statistical Analysis using Python (Version 3.1), where I used libraries Numpy, Pandas, Matplotlib and Seaborn to clean, analyze and visualize the dataset.
 
