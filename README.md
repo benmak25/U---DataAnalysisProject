@@ -39,12 +39,19 @@ Document relationships and implications for modeling
 
 3. Time Series Analysis (R)
 
-4. Predictive Modelling
+4. Predictive Modelling (^)
 
-5. Visualizations (Tableau)
+5. Visualizations (R, Tableau)
 
 Link to Live Dashboard: https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
 
-To draw more insights from the data, I created a dashboard using Tableau Public
+To draw more insights from the data, I created a dashboard using Tableau Public, here, I used the following visualizations to capture the time series data:
+Time Series Plots - Multi-line chart showing GDP trends with event annotations 
 
-6.  Report Findings
+- Statistical Distributions - Histograms and QQ-plots for normality assessment 
+- Correlation Heatmap - Seaborn heatmap with correlation coefficients 
+- Regression Diagnostics - Residual plots, actual vs. predicted, Q-Q plots 
+- Forecast Visualization - Historical data + predictions with confidence bands 
+- Model Comparison - Bar chart comparing model performance metrics 
+
+6.  Business Intelligence Report (R, Microsoft Word)
