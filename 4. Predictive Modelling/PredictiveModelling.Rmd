@@ -1,0 +1,129 @@
+---
+title: "Predictive Modelling"
+output: html_document
+date: "2026-03-26"
+---
+
+```{r}
+library(tidyverse)
+library(caret)
+library(glmnet)
+library(forecast)
+```
+```{r}
+df <- read.csv("Economy_of_US.csv")
+```
+```{r}
+df <- df %>%
+  mutate(
+    Year_Scaled = Year - min(Year),     # normalize year
+    Year_Sq = Year_Scaled^2,            # polynomial term
+    Lag1 = lag(GDP_Nominal, 1),         # lag feature
+    Growth = (GDP_Nominal / Lag1 - 1) * 100
+  ) %>%
+  drop_na()
+
+set.seed(123)
+
+train_index <- createDataPartition(df$GDP_Nominal, p = 0.8, list = FALSE)
+train <- df[train_index, ]
+test <- df[-train_index, ]
+
+lm_model <- lm(GDP_Nominal ~ Year_Scaled + Lag1 + Growth, data = train)
+
+summary(lm_model)
+
+# Predictions
+lm_pred <- predict(lm_model, newdata = test)
+
+
+poly_model <- lm(GDP_Nominal ~ Year_Scaled + Year_Sq, data = train)
+
+poly_pred <- predict(poly_model, newdata = test)
+
+
+# Prepare matrix format
+x_train <- model.matrix(GDP_Nominal ~ Year_Scaled + Year_Sq + Lag1 + Growth, train)[,-1]
+y_train <- train$GDP_Nominal
+
+x_test <- model.matrix(GDP_Nominal ~ Year_Scaled + Year_Sq + Lag1 + Growth, test)[,-1]
+y_test <- test$GDP_Nominal
+
+# Ridge (alpha = 0)
+ridge_model <- cv.glmnet(x_train, y_train, alpha = 0)
+ridge_pred <- predict(ridge_model, s = "lambda.min", newx = x_test)
+
+# Lasso (alpha = 1)
+lasso_model <- cv.glmnet(x_train, y_train, alpha = 1)
+lasso_pred <- predict(lasso_model, s = "lambda.min", newx = x_test)
+
+
+rmse <- function(actual, pred) {
+  sqrt(mean((actual - pred)^2))
+}
+
+results <- data.frame(
+  Model = c("Linear", "Polynomial", "Ridge", "Lasso"),
+  RMSE = c(
+    rmse(y_test, lm_pred),
+    rmse(y_test, poly_pred),
+    rmse(y_test, ridge_pred),
+    rmse(y_test, lasso_pred)
+  )
+)
+
+print(results)
+```
+##Time Series Forecasting
+```{r}
+gdp_ts <- ts(df$GDP_Nominal, start = min(df$Year), frequency = 1)
+
+train_ts <- window(gdp_ts, end = 2018)
+test_ts  <- window(gdp_ts, start = 2019)
+
+arima_model <- auto.arima(train_ts)
+
+summary(arima_model)
+
+```
+```{r}
+forecast_values <- forecast(arima_model, h = length(test_ts))
+
+# Plot forecast vs actual
+plot(forecast_values)
+lines(test_ts, col = "red")
+```
+```{r}
+future_forecast <- forecast(arima_model, h = 3)
+
+print(future_forecast)
+
+plot(future_forecast)
+```
+```{r}
+future_years <- data.frame(
+  Year = 2028:2030
+)
+
+future_years <- future_years %>%
+  mutate(
+    Year_Scaled = Year - min(df$Year),
+    Year_Sq = Year_Scaled^2,
+    Lag1 = tail(df$GDP_Nominal, 1),  # simple assumption
+    Growth = mean(df$Growth, na.rm = TRUE)
+  )
+
+lm_future_pred <- predict(lm_model, newdata = future_years)
+
+print(lm_future_pred)
+```
+
+```{r}
+comparison <- data.frame(
+  Year = 2028:2030,
+  ARIMA = future_forecast$mean,
+  Linear_Model = lm_future_pred
+)
+
+print(comparison)
+```

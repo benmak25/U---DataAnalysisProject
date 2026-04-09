@@ -1,0 +1,89 @@
+---
+title: "US_Economy_TimeSeries"
+output: html_document
+date: "2026-03-12"
+---
+##Libraries Imported
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(forecast)
+library(strucchange)
+```
+##Importing Data
+```{r setup, include=FALSE}
+df = read.csv("Economy_of_US.csv")
+```
+##Plotting and Observing Nominal GDP Year By Year
+```{r}
+
+
+# Convert to time series
+gdp_ts <- ts(df$GDP_Nominal, start = min(df$Year))
+
+print(gdp_ts)
+
+trend <- stats::filter(gdp_ts, rep(1/5, 5), sides = 2)
+
+residual <- gdp_ts - trend
+
+# Ploting the 
+plot(gdp_ts, main = "GDP Decomposition (Trend + Residual)", col = "black")
+lines(trend, col = "blue", lwd = 2)
+lines(residual, col = "red", lty = 2)
+
+legend("topleft",
+       legend = c("GDP", "Trend", "Residual"),
+       col = c("black", "blue", "red"),
+       lty = c(1,1,2))
+
+```
+```{r}
+# Year vector
+years <- 1980:2027
+
+# YoY growth
+yoy_growth <- c(NA, diff(as.numeric(gdp_ts)) / head(as.numeric(gdp_ts), -1) * 100)
+
+# Plot
+plot(years, yoy_growth, type = "b",
+     main = "Year-over-Year GDP Growth (%)",
+     xlab = "Year", ylab = "Growth (%)")
+abline(h = 0, col = "red") 
+```
+In the model above, there is a significant drop in GDP growth at around 2008, which was the year the Great Recession Occurred, and in 2020, which was the year that COVID 19 began. The Great Recession caused a 4.3% decrease in the US GDP. In 2008, there was a significant increase in unemployment rates, which decreases the amount of business investments. On the other hand, with COVID 19 closing many businesses, it has caused a significant decrease in consumer spending.
+
+##Breakpoint Analysis
+The structural breaks determine if there is a 
+```{r}
+# Breakpoint detection
+bp_model <- breakpoints(gdp_ts ~ 1)
+
+summary(bp_model)
+
+# Plot breakpoints
+plot(gdp_ts, main = "GDP with Structural Breaks")
+lines(fitted(bp_model), col = "blue")
+
+# Break years
+break_years <- time(gdp_ts)[bp_model$breakpoints]
+print(break_years)
+
+# Breakpoint detection
+bp_model <- breakpoints(gdp_ts ~ 1)
+
+summary(bp_model)
+
+# Plot breakpoints
+plot(gdp_ts, main = "GDP with Structural Breaks")
+lines(fitted(bp_model), col = "blue")
+
+# Break years
+break_years <- time(gdp_ts)[bp_model$breakpoints]
+
+print(break_years)
+```
+Here, it can be observed decade by decade, that the Nominal GDP progressively increases, but there is no sudden or abrupt changes.
+
+
