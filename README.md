@@ -12,13 +12,14 @@ I used SQLite (DB Browser) to build simple and complex queries to analyze an Eco
   - Identify decade with highest average GDP growth 
   - Find years with anomalous values (>2 standard deviations from mean) 
 
-2. Initial Statistical Analysis (Python, Python_Analysis.ipynb) *Currently in Progress
+2. Initial Data Validation (R/Python, Python_Analysis.ipynb) 
 
-I conducted a Statistical Analysis using Python (Version 3.1), where I used libraries Numpy, Pandas, Matplotlib and Seaborn to clean, analyze and visualize the dataset.
+I conducted a Statistical Analysis using R where I conducted Initial Checks and Data Validations by checking significance of statistical values and producing visualizations of different data fields. 
+
+As an alernative, I used Python (Version 3.1), specifically libraries Numpy, Pandas, Matplotlib and Seaborn, with all analysis compiled in a Jupyter.py notebook (In progress)
 
 File Content:
 Descriptive Statistics & Data Validation 
-
 Load data using Pandas and perform initial data quality checks 
 
 - Calculate comprehensive descriptive statistics (mean, median, std, skewness, kurtosis) 
@@ -39,9 +40,21 @@ Document relationships and implications for modeling
 
 3. Time Series Analysis (R)
 
-4. Predictive Modelling (^)
+Here, I started to analyze the time series data in depth using R. I particularly completed the following: 
+- Decompose time series into trend, seasonal, and residual components 
+- Calculate and plot year-over-year (YoY) growth rates 
+- Identify structural breaks or regime changes in the data 
+
+I also recognized that some trends in the time series were related to significant historic events which include:
+- 2008 Financial Crisis 
+- 2020 COVID-19 Pandemic 
+- Dot-com Bubble (2000-2001) 
+
+4. Predictive Modelling (R)
 
 5. Visualizations (R, Tableau)
+
+As an alternative, I have also built a dashboard using Tableau creating a panel of visualizations listed below.
 
 Link to Live Dashboard: https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
 
