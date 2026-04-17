@@ -52,6 +52,20 @@ I also recognized that some trends in the time series were related to significan
 
 4. Predictive Modelling (R)
 
+Advanced Models (Scikit-learn) 
+
+- Implement multiple regression with feature engineering 
+- Try polynomial regression to capture non-linear trends 
+- Apply Ridge/Lasso regression for regularization 
+- Compare model performance using cross-validation 
+- Time Series Forecasting 
+
+Build ARIMA model for GDP forecasting 
+
+- Use train-test split to validate predictions 
+- Forecast GDP values for 2028-2030 with confidence intervals 
+- Compare ARIMA vs. Linear Regression forecasts 
+
 5. Visualizations (R, Tableau)
 
 As an alternative, I have also built a dashboard using Tableau creating a panel of visualizations listed below.
@@ -68,3 +82,5 @@ Time Series Plots - Multi-line chart showing GDP trends with event annotations
 - Model Comparison - Bar chart comparing model performance metrics 
 
 6.  Business Intelligence Report (R, Microsoft Word)
+
+Here I combined all material to a 8-12 page report, providing additional business insights at the end.
