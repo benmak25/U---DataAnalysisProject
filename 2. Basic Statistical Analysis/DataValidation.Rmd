@@ -1,0 +1,133 @@
+---
+title: "Data Validation"
+output:
+  pdf_document: default
+  html_document: default
+date: "2026-04-09"
+---
+## Libraries Imported
+```{r, message = FALSE, warning = FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(forecast)
+library(strucchange)
+library(corrplot)
+library(psych)
+library(moments)
+library(e1071)
+library(tseries)
+library(car)
+```
+
+## Importing and Cleaning Data
+
+When Reading the Data, I recognized that the GDP Nominal and GDP_PPP Metrics were identical. To resolve this issue, I removed 2 of the duplicate fields and renamed the other 2 fields as "GDP" and "GDP_Per_Capita" 
+```{r}
+original_df = read.csv("Economy_of_US.csv")
+
+df <- original_df[, c(1, 2, 3, 6, 7, 8, 9)]
+colnames(df)[2] <- "GDP"
+colnames(df)[3] <- "GDP_PerCapita"
+
+gdp_df <- df[, 2:3]
+quant_vars <- df[, 2:6]
+```
+
+## Descriptive Statistics
+```{r}
+summary(quant_vars)
+
+# Returns a named vector of variances
+sapply(quant_vars, var, na.rm = TRUE)
+
+#Analyze Skewness of Quantitative Variables
+skew(quant_vars)
+
+#Kurtosis
+apply(quant_vars, 2, kurtosis, na.rm = TRUE)
+```
+For Skewness, the metrics indicate the following:\
+- Highly skewed if the absolute value is greater than 1 \
+- Moderately skewed if the absolute value is between 0.5 and 1 \
+- Symmetric if the absolute value is less or equal to 0.5 \
+
+From the results, the each metric is distributed as follows: \
+- Unemployment is skewed \
+- GDP and GDP Per Capita is moderately skewed \
+- GDP Growth is Highly Skewed \
+
+# Distribution Plots
+```{r}
+par(mfrow = c(1, 2))
+
+plot(df$Year, df$GDP, type = "l", xlab="Year", ylab = "GDP") 
+plot(df$Year, df$GDP_PerCapita, type = "l", , xlab="Year", ylab = "GDP Per Capita")
+
+par(mfrow = c(2, 2))
+plot(df$Year, df$GDP_Growth, type = "l", xlab="Year", ylab = "GDP Growth")
+plot(df$Year, df$Inflation, type = "l", xlab="Year", ylab = "Inflation Rate")
+plot(df$Year, df$Unemployment, type = "l" , xlab="Year", ylab = "Unemployment Rate")
+
+```
+To identify anonymous outliers in the data, I used a box plot for each quantitative metric to identify any possible outliers. Here, there are some in growth and unemployment, but because there is a relatively low number of records initially in the data, I decided not to transform them, but considered them for the modelling process. 
+```{r}
+boxplot(quant_vars[,1:2], main = "Box Plot Distributions for Quantitative Variables")
+boxplot(quant_vars[,3:5], main = "Box Plot Distributions for GDP Metrics and Factors")
+```
+
+## Hypothesis Testing
+
+# ANOVA
+
+First, I added a column to label years based on decades. Here, I classified the years are based on the shared "Tens Digit", and assigned a decade as the starting year it is part of.
+
+```{r}
+df$decade <- as.character(floor(df$Year/10)*10)
+```
+
+```{r}
+anova_model <- aov(GDP ~ decade, data = df)
+summary(anova_model)
+```
+The most important result to determine the Hypothesis is the P Value. Here, there is a Null Hypothesis, which states there is a difference between at least 2 decade GDP averages. If there is a 5% allowed chance of error in the data, then because the p-value is significantly less than 0.05, the null hypothesis is rejected and ANOVA concludes that the average GDP across all decades is not equal
+
+## Pearson's R 
+```{r}
+cor(x=df$GDP, y = df$GDP_PerCapita, method = "pearson")
+cor(x=df$GDP_PerCapita, y = df$GDP_Growth, method = "pearson")
+cor(x=df$GDP, y = df$GDP_Growth, method = "pearson")
+```
+From this test, the following can be observed:
+- There is a nearly perfect positive correlation between GDP and GDP Per Capita
+- There is a weak relation between GDP Growth and each with GDP and GDP Per Capita
+
+```{r}
+cor.test(x=df$GDP, y = df$GDP_PerCapita, method = "pearson")
+cor.test(x=df$GDP_PerCapita, y = df$GDP_Growth, method = "pearson")
+cor.test(x=df$GDP, y = df$GDP_Growth, method = "pearson")
+```
+Across all pairs of GDP Metrics, when willing to give 5% error, since all p values are greater than 0.05, reject the null hypothesis among each tested pair and conclude each correlation is statistically significant.
+
+# Augmented Dickey Fuller Test
+```{r}
+apply(quant_vars, 2, adf.test)
+```
+The Augmented Dickey Fuller Test determines if the time series data is has an identifiable trend or not. From the results, if a 5% error is allowed in the data, the null hypothesis is rejected for Growth Rates. Here, it can be concluded that the Growth Rate over time is stationary. From the previous line graph plotted, there is not a recognizable trend.
+
+## Correlation Analysis
+```{r}
+corrplot(cor(quant_vars), type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+```
+# Variance Inflation Factor
+
+Here, the model to evaluate is between Growth Rate and Inflation and Unemployment
+```{r}
+model <- lm(GDP_Growth ~ Inflation + Unemployment, data = quant_vars)
+summary(model)
+vif(model)
+```
+Here, there is a moderate correlation between each Inflation and Unemployment with GDP Growth Rates. With this, no variable reduction is necessary, but this could affect model performance and accuracy, in which it will be considered.
+
+
