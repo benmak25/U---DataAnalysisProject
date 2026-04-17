@@ -70,7 +70,7 @@ Build ARIMA model for GDP forecasting
 
 As an alternative, I have also built a dashboard using Tableau creating a panel of visualizations listed below.
 
-Link to Live Dashboard: https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
+Link to Live Dashboard (Still in Progress): https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
 
 To draw more insights from the data, I created a dashboard using Tableau Public, here, I used the following visualizations to capture the time series data:
 Time Series Plots - Multi-line chart showing GDP trends with event annotations 
