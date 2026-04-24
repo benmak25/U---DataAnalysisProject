@@ -84,3 +84,5 @@ Time Series Plots - Multi-line chart showing GDP trends with event annotations
 6.  Business Intelligence Report (R, Microsoft Word)
 
 Here I combined all material to a 8-12 page report, providing additional business insights at the end.
+
+File Name: Mak_GDP_Analysis_Report.pdf
