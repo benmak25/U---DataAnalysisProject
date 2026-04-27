@@ -1,4 +1,4 @@
-This Repository contains Data Analysis files for a task assigned from U+ Education. 
+This Repository contains Data Analysis files for a task assigned from U+ Education. The purpose of the report is to analyze US GDP from 1980-2026. Specifically, there is a focus on analyzing historical GDP metrics and how events such as the Great Recession and COVID impacted the growth rates. Furthermore, predictive modelling was used to forecast GDP values in the future for up to 3 years.
 
 Data Used: Economy_of_US.csv (https://www.kaggle.com/datasets/shizzaasherfastnulhr/summer-camp-datasets/data)
 
@@ -68,9 +68,9 @@ Build ARIMA model for GDP forecasting
 
 5. Visualizations (R, Tableau)
 
-As an alternative, I have also built a dashboard using Tableau creating a panel of visualizations listed below.
+As an alternative, I have also built a dashboard using Tableau creating a panel of basic visualizations listed below.
 
-Link to Live Dashboard (Still in Progress): https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
+Link to Live Dashboard: https://public.tableau.com/app/profile/benjamin.mak2285/viz/EconomyofUS/Dashboard1#1
 
 To draw more insights from the data, I created a dashboard using Tableau Public, here, I used the following visualizations to capture the time series data:
 Time Series Plots - Multi-line chart showing GDP trends with event annotations 
