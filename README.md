@@ -16,7 +16,7 @@ I used SQLite (DB Browser) to build simple and complex queries to analyze an Eco
 
 I conducted a Statistical Analysis using R where I conducted Initial Checks and Data Validations by checking significance of statistical values and producing visualizations of different data fields. 
 
-As an alernative, I used Python (Version 3.1), specifically libraries Numpy, Pandas, Matplotlib and Seaborn, with all analysis compiled in a Jupyter.py notebook (In progress)
+As an alernative, I used Python (Version 3.1), specifically libraries Numpy, Pandas, Matplotlib and Seaborn, with all analysis compiled in a Jupyter.py notebook 
 
 File Content:
 Descriptive Statistics & Data Validation 
